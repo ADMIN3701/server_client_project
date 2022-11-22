@@ -1,3 +1,4 @@
+import pyautogui
 import socket
 import os
 import time
@@ -6,14 +7,11 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 while True:
     try:
-        print("подключениe...")
-        client.connect(("127.0.0.1", 12345))
+        print("Подключение...")
+        client.connect(("192.168.0.167", 1234))
+        print("Подключено!")
         while True:
-            data = client.recv(16).decode("utf-8")
-            print(data)
-            if data:
-                os.system(f"{data}")
+            client.send(input().encode("utf-8"))
     except:
-        print("не удалось подключиться")
-        time.sleep(1)
-        os.system("cls")
+        print("Не удалось подключиться.")
+        time.sleep(2)
