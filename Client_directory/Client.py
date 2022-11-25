@@ -1,4 +1,3 @@
-import pyautogui
 import socket
 import os
 import time
@@ -7,9 +6,10 @@ import time
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.config import Config
-from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
 from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.label import Label
 
 Config.set("graphics", "resizable", 0)
 Config.set("graphics", "width", 600)
@@ -17,27 +17,20 @@ Config.set("graphics", "height", 400)
 
 class MyApp(App):
     def build(self):
-        bl = BoxLayout()
-        fl = FloatLayout(size = (200, 200))
-        self.text_input = TextInput()
-        bl.add_widget(self.text_input(
-            text="Введите текст",
-            pos=(600 / 2 - 150, 400 / 2 - 50),
-            size_hint=(.5, .25)))
+        al = AnchorLayout()
+        bl = BoxLayout(orientation="vertical", size_hint=[.4, .4])
 
-        bl.add_widget(Button(
-            text="Я кнопка!",
-            on_press=self.button_press,
-            pos=(600/2 - 150, 400/2 - 50),
-            size_hint=(.5, .25)))
+        self.text_input = TextInput(text="Enter")
+        bl.add_widget(self.text_input)
+        bl.add_widget(Button(text="Я кнопка, ага!", on_press=self.button_press))
 
-        print(self.text_input)
+        al.add_widget(bl)
 
-        return bl
+        return al
 
     def button_press(self, instance):
         print("Кнопка нажата")
-        instance.text = "Я нажата!"
+        instance.text = self.text_input.text
 
 if __name__ == "__main__":
     MyApp().run()
