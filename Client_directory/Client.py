@@ -5,32 +5,34 @@ import time
 
 from kivy.app import App
 from kivy.uix.button import Button
-from kivy.config import Config
-from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.textinput import TextInput
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
+from kivy.uix.widget import Widget
 
-Config.set("graphics", "resizable", 0)
-Config.set("graphics", "width", 600)
-Config.set("graphics", "height", 400)
+from kivy.core.window import Window
+Window.size = (300, 500)
 
 class MyApp(App):
     def build(self):
-        al = AnchorLayout()
-        bl = BoxLayout(orientation="vertical", size_hint=[.4, .4])
 
-        self.text_input = TextInput(text="Enter")
+        al = AnchorLayout()
+        bl = BoxLayout(orientation="vertical", padding=25, spacing=25)
+        self.text_input = TextInput(text="Введите текст...")
+        self.label = Label()
+
+        bl.add_widget(self.label)
         bl.add_widget(self.text_input)
-        bl.add_widget(Button(text="Я кнопка, ага!", on_press=self.button_press))
+        bl.add_widget(Button(text="Подтвердить текст", on_press=self.add_operation))
 
         al.add_widget(bl)
-
         return al
 
-    def button_press(self, instance):
-        print("Кнопка нажата")
-        instance.text = self.text_input.text
+    def add_operation(self, instate):
+        self.label.text = self.text_input.text
+        print(self.text_input.text)
+
 
 if __name__ == "__main__":
     MyApp().run()
