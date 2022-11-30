@@ -15,12 +15,22 @@ from kivy.core.window import Window
 Window.size = (300, 500)
 
 class MyApp(App):
+
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     def build(self):
 
         al = AnchorLayout()
         bl = BoxLayout(orientation="vertical", padding=25, spacing=25)
         self.text_input = TextInput(text="Введите текст...")
         self.label = Label()
+        self.label2 = Label()
+
+
+        bl.add_widget(self.label2)
+        self.label2.text = "подключение..."
+        self.client.connect(("192.168.0.167", 1234))
+        self.label2.text = "подключено!"
 
         bl.add_widget(self.label)
         bl.add_widget(self.text_input)
@@ -32,6 +42,9 @@ class MyApp(App):
     def add_operation(self, instate):
         self.label.text = self.text_input.text
         print(self.text_input.text)
+
+        ttt = self.text_input.text
+        self.client.send(ttt.encode("utf-8"))
 
 
 if __name__ == "__main__":
